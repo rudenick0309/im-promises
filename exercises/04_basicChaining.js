@@ -64,9 +64,21 @@ const fetchUsersAndWriteToFile = (readFilePath, writeFilePath) => {
       })
 
 };
+//리팩
+//오류..아
 
 
+//     let request = getDataFromFilePromise(readFilePath)
+//         .then(result =>
+//             result.map(data => getBodyFromGetRequestPromise(BASE_URL + data))
+//         )
+//         .then(response => Promise.all(response))
+//         .then(res => {
+//             let result = res.map(obj => obj.name);
+//             return writeFilePromise(writeFilePath, result.join("\n") + "\n", "utf8");
+//         });
 
+// };
 
 
 module.exports = {
