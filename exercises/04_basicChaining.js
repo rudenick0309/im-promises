@@ -35,7 +35,47 @@ const writeFilePromise = util.promisify(fs.writeFile);
 
 const BASE_URL = "https://koreanjson.com/users/";
 
-const fetchUsersAndWriteToFile = (readFilePath, writeFilePath) => {};
+const fetchUsersAndWriteToFile = (readFilePath, writeFilePath) => {
+  return getDataFromFilePromise(readFilePath)
+      .then(results => results.map(result => {
+          console.log('주소 확인', BASE_URL+result)
+        return getBodyFromGetRequestPromise(BASE_URL + result)
+      })) // ['1','2','3','4','5']
+      .then(res => {
+          // res.json();
+          return Promise.all(res)
+      })
+      .then(prom => {
+          console.log('어레이 확인', Array.isArray(prom))
+          console.log('첫 인덱스', prom[0].name)
+          let newArr = [];
+          prom.map(pro => {
+              // let newArr = [];
+              newArr.push(pro.name)
+
+          })
+          console.log('이름', newArr);
+          //여기서부터 하자. npm test하고 이름 사이에 \n를 어떻게 넣을건지부터 하면 됨
+          writeFilePromise(writeFilePath, newArr);
+
+
+      })
+
+};
+
+
+//     let request = getDataFromFilePromise(readFilePath)
+//         .then(result =>
+//             result.map(data => getBodyFromGetRequestPromise(BASE_URL + data))
+//         )
+//         .then(response => Promise.all(response))
+//         .then(res => {
+//             let result = res.map(obj => obj.name);
+//             writeFilePromise(writeFilePath, result.join("\n") + "\n", "utf8");
+//         });
+//     return request;
+// };
+
 
 module.exports = {
   fetchUsersAndWriteToFile
