@@ -59,28 +59,7 @@ const fetchUsersAndWriteToFile = (readFilePath, writeFilePath) => {
           console.log('이름', newArr);
           //여기서부터 하자. npm test하고 이름 사이에 \n를 어떻게 넣을건지부터 하면 됨
           return writeFilePromise(writeFilePath, arr.join(''));
-
-
       })
 
 };
-//리팩
-//오류..아
-
-
-//     let request = getDataFromFilePromise(readFilePath)
-//         .then(result =>
-//             result.map(data => getBodyFromGetRequestPromise(BASE_URL + data))
-//         )
-//         .then(response => Promise.all(response))
-//         .then(res => {
-//             let result = res.map(obj => obj.name);
-//             return writeFilePromise(writeFilePath, result.join("\n") + "\n", "utf8");
-//         });
-
-// };
-
-
-module.exports = {
-  fetchUsersAndWriteToFile
-};
+//깃 커밋 후 깃헙 풀리퀘스트 테스트 중. 임의 삭제함.
