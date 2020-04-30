@@ -14,8 +14,8 @@ const fs = require("fs");
 const util = require("util");
 
 const {
-  getBodyFromGetRequestPromise,
-  getDataFromFilePromise
+	getBodyFromGetRequestPromise,
+	getDataFromFilePromise,
 } = require("../exercises/02_promiseConstructor");
 
 const writeFilePromise = util.promisify(fs.writeFile);
@@ -36,10 +36,41 @@ const writeFilePromise = util.promisify(fs.writeFile);
 
 const BASE_URL = "https://koreanjson.com/users/";
 
+// const fetchUsersAndWriteToFile = (readFilePath, writeFilePath) => {
+// 	return getDataFromFilePromise(readFilePath)
+// 		.then((results) =>
+// 			results.map((result) => {
+// 				return getBodyFromGetRequestPromise(BASE_URL + result);
+// 			})
+// 		)
+// 		.then((res) => {
+// 			// res.json();
+// 			return Promise.all(res);
+// 		})
+// 		.then((prom) => {
+// 			let arr = prom.map((pro) => `${pro.name}\n`);
+
+// 			return writeFilePromise(writeFilePath, arr.join(""));
+// 		});
+// };
+
 const fetchUsersAndWriteToFileAsync = async (readFilePath, writeFilePath) => {
-  let waitingResult = await
+	return await getDataFromFilePromise(readFilePath)
+		.then((dataa) =>
+			dataa.map((data) => getBodyFromGetRequestPromise(BASE_URL + data))
+		)
+		.then((result) => Promise.all(result))
+		.then((res) => {
+			let nameCollector = res.map((re) => `${re.name}\n`);
+			console.log("결과궁금", nameCollector);
+			return writeFilePromise(writeFilePath, nameCollector.join(""));
+		});
 };
 
 module.exports = {
-  fetchUsersAndWriteToFileAsync
+	fetchUsersAndWriteToFileAsync,
 };
+
+// 1. 파일에서 userId를 가지고옵니다.
+// 2. userId를 사용해 KoreanJSON 서비스로 get request를 보내어 user 정보를 가지고옵니다.
+// 3. user정보에서 user의 이름을 파일에 씁니다.
